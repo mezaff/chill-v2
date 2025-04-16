@@ -4,7 +4,7 @@ const Hero = () => {
   return (
     <div
       className="flex w-full justify-center items-end h-[225px] md:h-[587px] bg-cover bg-center bg-no-repeat relative after:content-[''] after:block after:absolute after:w-full after:h-full after:top-0 after:left-0 after:bg-gradient-to-t after:from-[#181A1C] after:via-transparent after:to-transparent after:z-0"
-      style={{ backgroundImage: `url("/public/images/hero-bg.jpg")` }}
+      style={{ backgroundImage: `url("/images/hero-bg.jpg")` }}
     >
       <div className="w-[320px] md:w-[1280px] flex flex-col justify-end gap-[12px] mb-[40px] md:mb-[80px] relative z-10">
         <h1 className="text-white [text-shadow:_0_2px_4px_rgba(0,0,0,0.5)] text-[24px] md:text-[48px] font-bold">
