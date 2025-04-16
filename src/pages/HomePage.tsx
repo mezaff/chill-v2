@@ -8,7 +8,7 @@ const HomePage = () => {
   const { logedInUser } = useLogedInUser();
   return (
     <AppLayout>
-      <Hero bgImg="/public/images/hero-bg.png" />
+      <Hero bgImg="/public/images/hero-bg.jpg" />
       {logedInUser && (
         <HorizontalFilm
           idSection="nextFilm"
