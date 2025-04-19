@@ -23,7 +23,6 @@ const Footer = () => {
     axios
       .request(options)
       .then((res) => {
-        console.log(res.data.genres);
         setGenres(res.data.genres);
       })
       .catch((err) => {
