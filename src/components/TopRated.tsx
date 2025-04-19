@@ -1,10 +1,11 @@
 import axios from "axios";
-import { Card } from "./ui/card";
+import { Card, CardContent } from "./ui/card";
 import { CarouselContent, CarouselItem } from "./ui/carousel";
 import { useEffect, useState } from "react";
 import VerticalFilmLayout from "./Layouts/VerticalFilmLayout";
 
 const TopRated = () => {
+  const [hoveredId, setHoveredId] = useState<number>(-1);
   const [movies, setMovies] = useState<
     {
       adult: boolean;
@@ -52,6 +53,8 @@ const TopRated = () => {
           <CarouselItem key={id} className="basis-1/3 lg:basis-1/5 md:mx-2">
             <div className=" p-1">
               <Card
+                onMouseEnter={() => setHoveredId(res.id)}
+                onMouseLeave={() => setHoveredId(-1)}
                 style={{
                   backgroundImage: `url(${import.meta.env.VITE_TMDB_IMG_URL}/${
                     res.poster_path
@@ -59,19 +62,33 @@ const TopRated = () => {
                 }}
                 className={`w-[95px] h-[145px] md:w-[234px] md:h-[365px] bg-no-repeat bg-cover bg-center rounded-lg cursor-pointer hover:scale-105 transition-transform duration-300 p-0 flex `}
               >
-                {/* <CardContent>
-        {res.status === "new" ? (
-          <div className="text-white text-center text-[5.74px] md:text-[14px] font-bold rounded-xl bg-[#0F1E93] py-[1.91px] px-[4.78px] md:py-[4px] md:px-[10px]">
-            Episode Baru
-          </div>
-        ) : null}
-        {res.status === "top" ? (
-          <div className="text-white text-center text-[5.74px] md:text-[14px] rounded-tr-xs rounded-bl-xs md:rounded-tr-md md:rounded-bl-md bg-[#B71F1D] p-[1.91px] md:p-[4px]">
-            Top <br />
-            10
-          </div>
-        ) : null}
-      </CardContent> */}
+                {hoveredId === res.id && (
+                  <CardContent className="hidden md:flex items-center justify-center w-full h-full bg-black/80 rounded-lg">
+                    <div
+                      className={`flex flex-col items-center justify-center w-[95px] h-[145px] md:w-[234px] md:h-[365px] font-semibold`}
+                    >
+                      <>
+                        <p className="text-white text-center text-xs md:text-sm">
+                          Release:{" "}
+                          {new Date(res.release_date).toLocaleDateString(
+                            "en-US",
+                            {
+                              year: "numeric",
+                              month: "long",
+                              day: "numeric",
+                            }
+                          )}
+                        </p>
+                        <p className="text-white text-start text-xs md:text-sm">
+                          Vote: {res.vote_count}
+                        </p>
+                        <p className="text-white text-start text-xs md:text-sm">
+                          Vote Avg: {res.vote_average}
+                        </p>
+                      </>
+                    </div>
+                  </CardContent>
+                )}
               </Card>
             </div>
           </CarouselItem>

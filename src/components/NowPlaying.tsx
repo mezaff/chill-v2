@@ -15,6 +15,7 @@ type NowPlayingProps = {
 };
 
 const NowPlaying = (props: NowPlayingProps) => {
+  const [hoveredId, setHoveredId] = useState<number>(-1);
   const { idSection, sectionTitle } = props;
   const [movies, setMovies] = useState<
     {
@@ -55,7 +56,7 @@ const NowPlaying = (props: NowPlayingProps) => {
   return (
     <section
       id={idSection}
-      className="flex flex-col items-center py-20 px-8 bg-[#181a1c]"
+      className="flex flex-col items-center py-5 md:py-20 px-8 bg-[#181a1c]"
     >
       <div className="flex flex-col items-start justify-center w-full mb-5 md:ps-30">
         <h1 className="text-white text-start font-bold md:text-2xl">
@@ -68,6 +69,8 @@ const NowPlaying = (props: NowPlayingProps) => {
             <CarouselItem key={movie.id} className="md:basis-1/2 lg:basis-1/4">
               <div className="p-1">
                 <Card
+                  onMouseEnter={() => setHoveredId(movie.id)}
+                  onMouseLeave={() => setHoveredId(-1)}
                   className="w-[309px] h-[151px] md:w-[302px] md:h-[162px] bg-no-repeat bg-cover bg-center rounded-lg cursor-pointer hover:scale-105 transition-transform duration-300 p-0"
                   style={{
                     backgroundImage: `url(${
@@ -75,7 +78,25 @@ const NowPlaying = (props: NowPlayingProps) => {
                     }/${movie.poster_path})`,
                   }}
                 >
-                  <CardContent className="flex items-end justify-between h-full bg-gradient-to-t from-black to-transparent rounded-lg pb-2">
+                  <CardContent
+                    className={`relative flex items-end justify-between h-full bg-gradient-to-t from-black to-transparent rounded-lg pb-2 ${
+                      hoveredId === movie.id ? "bg-black/80" : ""
+                    }`}
+                  >
+                    {hoveredId === movie.id && (
+                      <p className="absolute top-15 text-white font-semibold transition-all duration-300 ease-in-out z-10">
+                        Release:{" "}
+                        {new Date(movie.release_date).toLocaleDateString(
+                          "en-US",
+                          {
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric",
+                          }
+                        )}
+                      </p>
+                    )}
+
                     <p className="text-white text-[14px] md:text-[18px] font-bold z-10">
                       {movie.title}
                     </p>
