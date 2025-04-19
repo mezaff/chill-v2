@@ -1,8 +1,35 @@
-import { useState } from "react";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 const Footer = () => {
   const [openGenre, setOpenGenre] = useState<boolean>(false);
   const [openHelp, setOpenHelp] = useState<boolean>(false);
+  const [genres, setGenres] = useState<
+    {
+      id: number;
+      name: string;
+    }[]
+  >([]);
+
+  useEffect(() => {
+    const options = {
+      method: "GET",
+      url: `${import.meta.env.VITE_TMDB_BASE_URL}/genre/movie/list`,
+      headers: {
+        accept: "application/json",
+        Authorization: `Bearer ${import.meta.env.VITE_TMDB_API_READ_TOKEN}`,
+      },
+    };
+    axios
+      .request(options)
+      .then((res) => {
+        console.log(res.data.genres);
+        setGenres(res.data.genres);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   const handleGenreToggle = () => {
     if (openGenre === true) {
@@ -34,27 +61,10 @@ const Footer = () => {
           <div className="flex flex-col gap-[15px] text-[16px]">
             <p className="font-bold">Genre</p>
             <div className="flex justify-between gap-[28px] font-medium text-[#C1C2C4]">
-              <ul>
-                <li>Aksi</li>
-                <li>Anak-anak</li>
-                <li>Anime</li>
-                <li>Britania</li>
-              </ul>
-              <ul>
-                <li>Drama</li>
-                <li>Fantasi Ilmiah & Fantasi</li>
-                <li>Kejahatan</li>
-                <li>KDrama</li>
-              </ul>
-              <ul>
-                <li>Komedi</li>
-                <li>Petualangan</li>
-                <li>Perang</li>
-                <li>Romantis</li>
-              </ul>
-              <ul>
-                <li>Sains & Alam</li>
-                <li>Thriller</li>
+              <ul className="grid grid-cols-4 gap-x-10">
+                {genres.map((genre) => (
+                  <li key={genre.id}>{genre.name}</li>
+                ))}
               </ul>
             </div>
           </div>
@@ -94,20 +104,9 @@ const Footer = () => {
           {openGenre && (
             <div>
               <ul className="flex flex-col gap-[8px] font-medium text-[#C1C2C4]">
-                <li>Aksi</li>
-                <li>Anak-anak</li>
-                <li>Anime</li>
-                <li>Britania</li>
-                <li>Drama</li>
-                <li>Fantasi Ilmiah & Fantasi</li>
-                <li>Kejahatan</li>
-                <li>KDrama</li>
-                <li>Komedi</li>
-                <li>Petualangan</li>
-                <li>Perang</li>
-                <li>Romantis</li>
-                <li>Sains & Alam</li>
-                <li>Thriller</li>
+                {genres.map((genre) => (
+                  <li key={genre.id}>{genre.name}</li>
+                ))}
               </ul>
             </div>
           )}

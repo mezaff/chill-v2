@@ -19,9 +19,10 @@ const Navbar = () => {
             className="w-[20px] block md:hidden"
           />
         </Link>
-        <a href="#topRating">Series</a>
-        <a href="#trending">Film</a>
-        <a href={logedInUser ? "#nextFilm" : "/login"}>Daftar Saya</a>
+        <a href="#top-rated">Top Rated</a>
+        <a href="#popular">Trending</a>
+        <a href="#upcoming">Up Coming</a>
+        <a href={logedInUser ? "#now-playing" : "/login"}>History</a>
       </div>
       <ProfileMenu />
     </div>

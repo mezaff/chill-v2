@@ -27,8 +27,6 @@ const LoginPage = () => {
   const navigate = useNavigate();
 
   const onLoginSubmit = (values: LoginFormSchema) => {
-    console.log(values);
-
     const registedUser = JSON.parse(localStorage.getItem("user") || "{}");
     if (registedUser.username !== values.username) {
       form.setError("username", { message: "Username tidak terdaftar" });

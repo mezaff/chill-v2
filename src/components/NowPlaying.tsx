@@ -1,5 +1,4 @@
 import { Card, CardContent } from "./ui/card";
-import { dataFilm } from "@/lib/dataFilm";
 import {
   Carousel,
   CarouselContent,
@@ -7,20 +6,56 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "./ui/carousel";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
-type HorizontalFilmProps = {
+type NowPlayingProps = {
   idSection: string;
   sectionTitle: string;
 };
 
-const HorizontalFilm = (props: HorizontalFilmProps) => {
+const NowPlaying = (props: NowPlayingProps) => {
   const { idSection, sectionTitle } = props;
-  const films = dataFilm.filter((film) => film.category === idSection);
+  const [movies, setMovies] = useState<
+    {
+      adult: boolean;
+      backdrop_path: string;
+      id: number;
+      original_language: string;
+      original_title: string;
+      overview: string;
+      popularity: number;
+      poster_path: string;
+      release_date: string;
+      title: string;
+      video: boolean;
+      vote_average: number;
+      vote_count: number;
+    }[]
+  >([]);
 
+  useEffect(() => {
+    const options = {
+      method: "GET",
+      url: `${import.meta.env.VITE_TMDB_BASE_URL}/movie/popular`,
+      headers: {
+        accept: "application/json",
+        Authorization: `Bearer ${import.meta.env.VITE_TMDB_API_READ_TOKEN}`,
+      },
+    };
+    axios
+      .request(options)
+      .then((res) => {
+        setMovies(res.data.results);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
   return (
     <section
       id={idSection}
-      className="flex flex-col items-center my-10 px-8 bg-[#181a1c]"
+      className="flex flex-col items-center py-20 px-8 bg-[#181a1c]"
     >
       <div className="flex flex-col items-start justify-center w-full mb-5 md:ps-30">
         <h1 className="text-white text-start font-bold md:text-2xl">
@@ -29,16 +64,20 @@ const HorizontalFilm = (props: HorizontalFilmProps) => {
       </div>
       <Carousel className="w-full max-w-lg md:max-w-2xl lg:max-w-7xl">
         <CarouselContent>
-          {films.map((film) => (
-            <CarouselItem key={film.id} className="md:basis-1/2 lg:basis-1/4">
+          {movies.map((movie) => (
+            <CarouselItem key={movie.id} className="md:basis-1/2 lg:basis-1/4">
               <div className="p-1">
                 <Card
                   className="w-[309px] h-[151px] md:w-[302px] md:h-[162px] bg-no-repeat bg-cover bg-center rounded-lg cursor-pointer hover:scale-105 transition-transform duration-300 p-0"
-                  style={{ backgroundImage: `url(${film.imgUrl})` }}
+                  style={{
+                    backgroundImage: `url(${
+                      import.meta.env.VITE_TMDB_IMG_URL
+                    }/${movie.poster_path})`,
+                  }}
                 >
                   <CardContent className="flex items-end justify-between h-full bg-gradient-to-t from-black to-transparent rounded-lg pb-2">
                     <p className="text-white text-[14px] md:text-[18px] font-bold z-10">
-                      {film.title}
+                      {movie.title}
                     </p>
                     <p className="text-white text-[14px] md:text-[18px] z-10 flex flex-row justify-between items-center gap-[4px]">
                       <img
@@ -46,7 +85,7 @@ const HorizontalFilm = (props: HorizontalFilmProps) => {
                         alt="star"
                         className="w-[12px] md:w-[16px] h-[12px] md:h-[16px]"
                       />{" "}
-                      {film.rating}
+                      {movie.vote_average}
                     </p>
                   </CardContent>
                 </Card>
@@ -54,15 +93,11 @@ const HorizontalFilm = (props: HorizontalFilmProps) => {
             </CarouselItem>
           ))}
         </CarouselContent>
-        {films.length > 4 && (
-          <>
-            <CarouselPrevious className="hidden md:flex" />
-            <CarouselNext className="hidden md:flex" />
-          </>
-        )}
+        <CarouselPrevious className="hidden md:flex" />
+        <CarouselNext className="hidden md:flex" />
       </Carousel>
     </section>
   );
 };
 
-export default HorizontalFilm;
+export default NowPlaying;

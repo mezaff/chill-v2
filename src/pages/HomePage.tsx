@@ -1,7 +1,9 @@
 import Hero from "@/components/Hero";
-import HorizontalFilm from "@/components/HorizontalFilm";
 import AppLayout from "@/components/Layouts/AppLayout";
-import VerticalFilm from "@/components/VerticalFilm";
+import NowPlaying from "@/components/NowPlaying";
+import Popular from "@/components/Popular";
+import TopRated from "@/components/TopRated";
+import UpComing from "@/components/UpComing";
 import { useLogedInUser } from "@/hooks/useLogedInUser";
 
 const HomePage = () => {
@@ -10,19 +12,12 @@ const HomePage = () => {
     <AppLayout>
       <Hero />
       {logedInUser && (
-        <HorizontalFilm
-          idSection="nextFilm"
-          sectionTitle="Melanjutkan Tonton Film"
-        />
+        <NowPlaying idSection="now-playing" sectionTitle="My History" />
       )}
 
-      <VerticalFilm
-        idSection="topRating"
-        sectionTitle="Top Rating Film dan Series Hari ini"
-      />
-
-      <VerticalFilm idSection="trending" sectionTitle="Film Trending" />
-      <VerticalFilm idSection="newRelease" sectionTitle="Rilis Baru" />
+      <TopRated />
+      <Popular />
+      <UpComing />
     </AppLayout>
   );
 };
