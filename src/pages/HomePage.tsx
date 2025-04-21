@@ -9,7 +9,7 @@ const HomePage = () => {
   return (
     <AppLayout>
       <Hero />
-      <NowPlaying idSection="now-playing" sectionTitle="My History" />
+      <NowPlaying idSection="now-playing" sectionTitle="Now Playing" />
 
       <TopRated />
       <Popular />

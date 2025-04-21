@@ -31,7 +31,7 @@ const Navbar = () => {
           </a>
           {logedInUser && (
             <a href="#now-playing" className="text-xs md:text-xl">
-              History
+              Now Playing
             </a>
           )}
         </div>
