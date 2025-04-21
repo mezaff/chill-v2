@@ -1,34 +1,10 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
+import { useFetchGenres } from "@/services/useFetchGenres";
+import { useState } from "react";
 
 const Footer = () => {
   const [openGenre, setOpenGenre] = useState<boolean>(false);
   const [openHelp, setOpenHelp] = useState<boolean>(false);
-  const [genres, setGenres] = useState<
-    {
-      id: number;
-      name: string;
-    }[]
-  >([]);
-
-  useEffect(() => {
-    const options = {
-      method: "GET",
-      url: `${import.meta.env.VITE_TMDB_BASE_URL}/genre/movie/list`,
-      headers: {
-        accept: "application/json",
-        Authorization: `Bearer ${import.meta.env.VITE_TMDB_API_READ_TOKEN}`,
-      },
-    };
-    axios
-      .request(options)
-      .then((res) => {
-        setGenres(res.data.genres);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+  const { genres } = useFetchGenres();
 
   const handleGenreToggle = () => {
     if (openGenre === true) {
@@ -60,7 +36,7 @@ const Footer = () => {
           <div className="flex flex-col gap-[15px] text-[16px]">
             <p className="font-bold">Genre</p>
             <div className="flex justify-between gap-[28px] font-medium text-[#C1C2C4]">
-              <ul className="grid grid-cols-4 gap-x-10">
+              <ul className="grid grid-cols-4 gap-x-5">
                 {genres.map((genre) => (
                   <li key={genre.id}>{genre.name}</li>
                 ))}
@@ -71,10 +47,10 @@ const Footer = () => {
             <p className="font-bold">Bantuan</p>
             <div className="flex justify-between gap-[28px] font-medium text-[#C1C2C4]">
               <ul>
-                <li>Aksi</li>
-                <li>Anak-anak</li>
-                <li>Anime</li>
-                <li>Britania</li>
+                <li>FAQ</li>
+                <li>Kontak Kami</li>
+                <li>Privasi</li>
+                <li>Syarat & Ketentuan</li>
               </ul>
             </div>
           </div>

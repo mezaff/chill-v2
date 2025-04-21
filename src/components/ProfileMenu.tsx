@@ -7,8 +7,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
-import { useLogedInUser } from "@/hooks/useLogedInUser";
 import { useNavigate } from "react-router";
+import { useLogedInUser } from "@/hooks/useLogedInUser";
 
 const ProfileMenu = () => {
   const { logedInUser } = useLogedInUser();

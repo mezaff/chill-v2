@@ -1,0 +1,15 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "username": "mezaaf",
+      "password": "Mezafuwandhana25"
+    },
+    {
+      "id": 2,
+      "username": "fuwandhana",
+      "password": "Fuwandhana25"
+    }
+  ],
+  "films": []
+}
