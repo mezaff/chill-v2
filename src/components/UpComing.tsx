@@ -29,7 +29,11 @@ const UpComing = () => {
             key={movie.id}
             className="basis-1/3 lg:basis-1/5 md:mx-2"
           >
+<<<<<<< HEAD
             <div className="flex items-center justify-center w-[95px] h-[145px] md:w-[234px] md:h-[365px] overflow-hidden rounded-md md:rounded-2xl">
+=======
+            <div className="group relative w-[95px] h-[145px] md:w-[234px] md:h-[365px] overflow-hidden  rounded-2xl">
+>>>>>>> origin/main
               <Card
                 onMouseEnter={() => handleMouseEnter(movie.id)}
                 onMouseLeave={() => handleMouseLeave()}
@@ -38,18 +42,30 @@ const UpComing = () => {
                     movie.poster_path
                   })`,
                 }}
+<<<<<<< HEAD
                 className={`flex items-center justify-center inset-0 z-0 transition-transform duration-300 hover:scale-110 bg-cover bg-center`}
               >
                 <CardContent
                   className={`flex items-center justify-center w-[95px] h-[145px] md:w-[234px] md:h-[365px] inset-0 z-10 place-content-center ${
+=======
+                className={`absolute inset-0 z-0 transition-transform duration-300 group-hover:scale-110 bg-cover bg-center `}
+              >
+                <CardContent
+                  className={`absolute inset-0 z-10 grid place-content-center ${
+>>>>>>> origin/main
                     hoveredId === movie.id
                       ? "bg-gradient-to-br from-white/20 to-white/0 backdrop-blur"
                       : ""
                   }`}
                 >
                   {hoveredId === movie.id && (
+<<<<<<< HEAD
                     <div className="flex flex-col gap-2 items-center justify-center md:justify-between w-[95px] h-[145px] md:w-[234px] md:h-[365px] md:py-15 md:px-5">
                       <p className="hidden md:block text-xl text-center font-semibold text-white">
+=======
+                    <div className="flex flex-col gap-2 items-center justify-between w-[95px] h-[145px] md:w-[234px] md:h-[365px] py-15 px-5">
+                      <p className="text-xl text-center font-semibold text-white">
+>>>>>>> origin/main
                         {movie.title}
                       </p>
                       <Button
