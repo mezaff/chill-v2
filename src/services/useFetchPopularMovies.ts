@@ -1,4 +1,4 @@
-import { axiosInstace } from "@/lib/axios";
+import { axiosFilmInstance } from "@/lib/axios";
 import { useEffect, useState } from "react";
 
 type PopularMoviesResponse = {
@@ -31,7 +31,7 @@ export const useFetchPopularMovies = () => {
     setPopularMoviesIsLoading(true);
     const fecthTopRatedMovies = async () => {
       try {
-        const res = await axiosInstace.get<PopularMoviesResponse>(
+        const res = await axiosFilmInstance.get<PopularMoviesResponse>(
           "/trending/movie/week"
         );
         setPopularMovies(res.data.results);

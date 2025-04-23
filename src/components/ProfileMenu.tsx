@@ -7,8 +7,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { useLogedInUser } from "@/hooks/useLogedInUser";
+import { axiosAuthInstance } from "@/lib/axios";
 
 const ProfileMenu = () => {
   const { logedInUser } = useLogedInUser();
@@ -17,16 +18,20 @@ const ProfileMenu = () => {
   const handleLogin = () => {
     navigate("/login");
   };
-  const handleLogout = () => {
-    const storedUser = localStorage.getItem("user");
-
-    if (storedUser) {
-      const user = JSON.parse(storedUser);
-      const updatedUser = { ...user, isLogin: false };
-      localStorage.setItem("user", JSON.stringify(updatedUser));
+  const handleLogout = async () => {
+    try {
+      if (logedInUser) {
+        await axiosAuthInstance.put(`/users/${logedInUser.id}`, {
+          ...logedInUser,
+          isLogin: false,
+        });
+      }
+      localStorage.removeItem("user");
+      navigate("/");
+      window.location.reload();
+    } catch (error) {
+      console.log(error);
     }
-    navigate("/");
-    window.location.reload();
   };
 
   return (
@@ -36,7 +41,7 @@ const ProfileMenu = () => {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <img
-                src="/images/profile.jpg"
+                src={logedInUser.avatar || "/images/default-avatar.png"}
                 alt="avatar"
                 className="w-[20px] md:w-[40px] bg-white rounded-full focus:outline-none focus:ring-0 focus-visible:ring-2 focus-visible:ring-ring"
               />
@@ -47,8 +52,13 @@ const ProfileMenu = () => {
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem className="cursor-pointer">
-                <User />
-                <span className="text-sm">Profil Saya</span>
+                <Link
+                  to={`/user/${logedInUser.username}`}
+                  className="flex flex-row gap-2 items-center"
+                >
+                  <User />
+                  <span className="text-sm">Profil Saya</span>
+                </Link>
               </DropdownMenuItem>
               <DropdownMenuItem className="cursor-pointer">
                 <Star />

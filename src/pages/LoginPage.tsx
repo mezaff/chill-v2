@@ -11,10 +11,19 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { loginFormSchema, type LoginFormSchema } from "@/forms/login";
+import { axiosAuthInstance } from "@/lib/axios";
 import { zodResolver } from "@hookform/resolvers/zod";
+import axios from "axios";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router";
-
+type UserResponse = {
+  id: string;
+  username: string;
+  password: string;
+  isLogin: boolean;
+  avatar: string;
+  createdAt: string;
+};
 const LoginPage = () => {
   const form = useForm<LoginFormSchema>({
     resolver: zodResolver(loginFormSchema),
@@ -26,22 +35,30 @@ const LoginPage = () => {
 
   const navigate = useNavigate();
 
-  const onLoginSubmit = (values: LoginFormSchema) => {
-    const registedUser = JSON.parse(localStorage.getItem("user") || "{}");
-    if (registedUser.username !== values.username) {
-      form.setError("username", { message: "Username tidak terdaftar" });
-      return;
-    } else if (registedUser.password !== values.password) {
-      form.setError("password", { message: "Password salah" });
-      return;
-    } else {
-      const updatedUser = {
+  const onLoginSubmit = async (values: LoginFormSchema) => {
+    try {
+      const registedUser = (await axiosAuthInstance.get("users")).data.find(
+        (user: UserResponse) => user.username === values.username
+      );
+
+      await axiosAuthInstance.put(`users/${registedUser.id}`, {
         ...registedUser,
         isLogin: true,
-      };
-      localStorage.setItem("user", JSON.stringify(updatedUser));
+      });
+      localStorage.setItem("user", JSON.stringify(registedUser.id));
       form.reset();
       navigate("/");
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (error.response?.status === 404) {
+          form.setError("username", { message: "Username tidak terdaftar" });
+          form.setError("password", { message: "Password salah" });
+        } else {
+          console.error("An unexpected error occurred:", error.message);
+        }
+      } else {
+        console.error("An unexpected error occurred:", error);
+      }
     }
   };
   return (
