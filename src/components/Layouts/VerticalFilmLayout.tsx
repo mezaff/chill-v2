@@ -11,10 +11,20 @@ const VerticalFilmLayout = (props: VerticalFilmLayoutProps) => {
   return (
     <section
       id={type}
-      className="flex flex-col justify-center items-center py-5 md:py-20 px-8 bg-[#181a1c]"
+      className={`flex flex-col justify-center items-center py-5 md:py-20 ${
+        type !== "myList" && "px-8"
+      } bg-[#181a1c]`}
     >
-      <div className="flex flex-col items-start justify-center w-full mb-5 md:ps-30">
-        <h1 className="text-white text-start font-bold md:text-2xl">
+      <div
+        className={`flex flex-col ${
+          type === "myList" ? "items-center" : "items-start md:ps-30"
+        }  justify-center w-full mb-5 md:mb-10`}
+      >
+        <h1
+          className={`text-white ${
+            type === "myList" ? "text-center" : "text-start"
+          } font-bold md:text-2xl`}
+        >
           {sectionTitle}
         </h1>
       </div>
@@ -26,8 +36,12 @@ const VerticalFilmLayout = (props: VerticalFilmLayoutProps) => {
       >
         {children}
 
-        <CarouselPrevious className="hidden md:flex" />
-        <CarouselNext className="hidden md:flex" />
+        {type !== "myList" && (
+          <>
+            <CarouselPrevious className="hidden md:flex" />
+            <CarouselNext className="hidden md:flex" />
+          </>
+        )}
       </Carousel>
     </section>
   );
