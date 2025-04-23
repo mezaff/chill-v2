@@ -5,7 +5,7 @@ import { useLogedInUser } from "@/hooks/useLogedInUser";
 const Navbar = () => {
   const { logedInUser } = useLogedInUser();
   return (
-    <div className="flex flex-row justify-between items-center bg-[#181a1c] px-5 md:px-10 py-2 md:py-4 sticky top-0 z-999 text-md md:text-lg text-white font-semibold md:font-bold">
+    <div className="flex flex-row justify-between items-center bg-[#181a1c] px-5 md:px-10 py-2 md:py-4 sticky top-0 z-999 text-md md:text-lg text-white font-semibold md:font-bold border-b">
       <div className="flex flex-row justify-between items-center gap-4 md:gap-24">
         <Link to={"/"}>
           <img

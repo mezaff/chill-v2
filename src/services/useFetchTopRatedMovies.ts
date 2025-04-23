@@ -1,4 +1,4 @@
-import { axiosInstace } from "@/lib/axios";
+import { axiosFilmInstance } from "@/lib/axios";
 import { useEffect, useState } from "react";
 
 type TopRatedMoviesResponse = {
@@ -31,7 +31,7 @@ export const useFetchTopRatedMovies = () => {
     setTopRatedMoviesIsLoading(true);
     const fecthTopRatedMovies = async () => {
       try {
-        const res = await axiosInstace.get<TopRatedMoviesResponse>(
+        const res = await axiosFilmInstance.get<TopRatedMoviesResponse>(
           "/movie/top_rated"
         );
         setTopRatedMovies(res.data.results);

@@ -1,4 +1,4 @@
-import { axiosInstace } from "@/lib/axios";
+import { axiosFilmInstance } from "@/lib/axios";
 import { useEffect, useState } from "react";
 
 type NowPlayingMoviesResponse = {
@@ -32,7 +32,7 @@ export const useFetchNowPlayingMovies = () => {
     setNowPlayingMoviesIsLoading(true);
     const fecthTopRatedMovies = async () => {
       try {
-        const res = await axiosInstace.get<NowPlayingMoviesResponse>(
+        const res = await axiosFilmInstance.get<NowPlayingMoviesResponse>(
           "/trending/movie/week"
         );
         setNowPlayingMovies(res.data.results);

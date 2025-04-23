@@ -1,4 +1,4 @@
-import { axiosInstace } from "@/lib/axios";
+import { axiosFilmInstance } from "@/lib/axios";
 import { useEffect, useState } from "react";
 
 type GenreResponse = {
@@ -13,13 +13,15 @@ export const useFetchGenres = () => {
   useEffect(() => {
     const fetchGeneres = async () => {
       try {
-        const res = await axiosInstace.get<GenreResponse>("/genre/movie/list");
+        const res = await axiosFilmInstance.get<GenreResponse>(
+          "/genre/movie/list"
+        );
         setGenres(res.data.genres);
       } catch (error) {
         console.log(error);
       }
     };
     fetchGeneres();
-  });
+  }, []);
   return { genres };
 };

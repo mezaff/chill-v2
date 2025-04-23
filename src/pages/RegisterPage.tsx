@@ -14,6 +14,7 @@ import { type RegisterFormSchema, registerFormSchema } from "@/forms/register";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { axiosAuthInstance } from "@/lib/axios";
 
 const RegisterPage = () => {
   const form = useForm<RegisterFormSchema>({
@@ -27,19 +28,20 @@ const RegisterPage = () => {
 
   const navigate = useNavigate();
 
-  const onRegisterSubmit = (values: RegisterFormSchema) => {
-    const registedUser = {
-      username: values.username,
-      password: values.password,
-    };
-    const user = {
-      ...registedUser,
-      isLogin: false,
-    };
+  const onRegisterSubmit = async (values: RegisterFormSchema) => {
+    try {
+      const user = {
+        username: values.username,
+        password: values.password,
+        isLogin: false,
+      };
 
-    localStorage.setItem("user", JSON.stringify(user));
-    form.reset();
-    navigate("/login");
+      axiosAuthInstance.post("/users", user);
+      form.reset();
+      navigate("/login");
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <AuthLayout type="register" bgImg="/images/register-bg.jpg">
