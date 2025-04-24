@@ -3,11 +3,19 @@ import { CarouselContent, CarouselItem } from "./ui/carousel";
 import VerticalFilmLayout from "./Layouts/VerticalFilmLayout";
 import { useFetchTopRatedMovies } from "@/services/useFetchTopRatedMovies";
 import { useHoveredMovies } from "@/hooks/useHoveredMovies";
+import { Button } from "./ui/button";
+import { useLogedInUser } from "@/hooks/useLogedInUser";
+import { useAddFilmToList } from "@/services/useAddFilmToList";
 
 const TopRated = () => {
-  const { topRatedMovies, topRatedMoviesError, topRatedMoviesIsLoading } =
-    useFetchTopRatedMovies();
+  const { topRatedMovies, topRatedMoviesError } = useFetchTopRatedMovies();
   const { handleMouseEnter, handleMouseLeave, hoveredId } = useHoveredMovies();
+  const { logedInUser } = useLogedInUser();
+  const { handleAddToList } = useAddFilmToList({
+    userId: logedInUser?.id,
+    movieId: hoveredId,
+  });
+
   return (
     <VerticalFilmLayout
       type="top-rated"
@@ -24,7 +32,7 @@ const TopRated = () => {
             key={movie.id}
             className="basis-1/3 lg:basis-1/5 md:mx-2"
           >
-            <div className=" p-1">
+            <div className="group relative w-[95px] h-[145px] md:w-[234px] md:h-[365px] overflow-hidden  rounded-2xl">
               <Card
                 onMouseEnter={() => handleMouseEnter(movie.id)}
                 onMouseLeave={() => handleMouseLeave()}
@@ -33,43 +41,29 @@ const TopRated = () => {
                     movie.poster_path
                   })`,
                 }}
-                className={`w-[95px] h-[145px] md:w-[234px] md:h-[365px] bg-no-repeat bg-cover bg-center rounded-lg cursor-pointer hover:scale-105 transition-transform duration-300 p-0 flex `}
+                className={`absolute inset-0 z-0 transition-transform duration-300 group-hover:scale-110 bg-cover bg-center `}
               >
-                {topRatedMoviesIsLoading ? (
-                  <p>Loading...</p>
-                ) : (
-                  <CardContent
-                    className={`hidden md:flex items-center justify-center w-full h-full rounded-lg ${
-                      hoveredId === movie.id && "bg-black/80"
-                    }`}
-                  >
-                    <div
-                      className={`flex flex-col items-center justify-center w-[95px] h-[145px] md:w-[234px] md:h-[365px] font-semibold`}
-                    >
-                      {hoveredId === movie.id && (
-                        <>
-                          <p className="text-white text-center text-xs md:text-sm">
-                            Release:{" "}
-                            {new Date(movie.release_date).toLocaleDateString(
-                              "en-US",
-                              {
-                                year: "numeric",
-                                month: "long",
-                                day: "numeric",
-                              }
-                            )}
-                          </p>
-                          <p className="text-white text-start text-xs md:text-sm">
-                            Vote: {movie.vote_count}
-                          </p>
-                          <p className="text-white text-start text-xs md:text-sm">
-                            Vote Avg: {movie.vote_average}
-                          </p>
-                        </>
-                      )}
+                <CardContent
+                  className={`absolute inset-0 z-10 grid place-content-center ${
+                    hoveredId === movie.id
+                      ? "bg-gradient-to-br from-white/20 to-white/0 backdrop-blur"
+                      : ""
+                  }`}
+                >
+                  {hoveredId === movie.id && (
+                    <div className="flex flex-col gap-2 items-center justify-between w-[95px] h-[145px] md:w-[234px] md:h-[365px] py-15 px-5">
+                      <p className="text-xl text-center font-semibold text-white">
+                        {movie.title}
+                      </p>
+                      <Button
+                        onClick={handleAddToList}
+                        className="rounded-full bg-[#3254FF] border-2 border-[#3254FF] text-white hover:bg-transparent hover:text-white text-xs"
+                      >
+                        Add to List
+                      </Button>
                     </div>
-                  </CardContent>
-                )}
+                  )}
+                </CardContent>
               </Card>
             </div>
           </CarouselItem>
