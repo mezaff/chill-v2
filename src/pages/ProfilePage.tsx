@@ -28,7 +28,9 @@ const ProfilePage = () => {
   });
   return (
     <AppLayout>
+
       <div className="flex flex-col gap-4 p-5 md:px-40 text-white">
+
         <h1 className="text-2xl font-bold mb-5">Profile Saya</h1>
         <div className="flex flex-row gap-20 justify-between items-start">
           <div className="flex flex-col gap-8 w-full">
@@ -121,12 +123,14 @@ const ProfilePage = () => {
             </div>
           </div>
         </div>
+
       </div>
       <div className="mt-10">
         <h1 className="text-2xl font-bold mb-5 text-white md:px-40">
           My List{" "}
         </h1>
         <UserFilmList />
+
       </div>
     </AppLayout>
   );

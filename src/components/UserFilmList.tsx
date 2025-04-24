@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import VerticalFilmLayout from "./Layouts/VerticalFilmLayout";
 import { Card, CardContent } from "./ui/card";
@@ -114,6 +115,7 @@ const UserFilmList = () => {
         </CarouselContent>
       )}
     </VerticalFilmLayout>
+
   );
 };
 
