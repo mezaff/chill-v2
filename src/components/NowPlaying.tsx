@@ -8,6 +8,9 @@ import {
 } from "./ui/carousel";
 import { useFetchNowPlayingMovies } from "@/services/useFetchNowPlayingMovies";
 import { useHoveredMovies } from "@/hooks/useHoveredMovies";
+import { Button } from "./ui/button";
+import { useLogedInUser } from "@/hooks/useLogedInUser";
+import { useAddFilmToList } from "@/services/useAddFilmToList";
 
 type NowPlayingProps = {
   idSection: string;
@@ -16,9 +19,14 @@ type NowPlayingProps = {
 
 const NowPlaying = (props: NowPlayingProps) => {
   const { idSection, sectionTitle } = props;
-  const { nowPlayingMovies, nowPlayingMoviesError, nowPlayingMoviesIsLoading } =
+  const { nowPlayingMovies, nowPlayingMoviesError } =
     useFetchNowPlayingMovies();
   const { handleMouseEnter, handleMouseLeave, hoveredId } = useHoveredMovies();
+  const { logedInUser } = useLogedInUser();
+  const { handleAddToList } = useAddFilmToList({
+    userId: logedInUser?.id,
+    movieId: hoveredId,
+  });
   return (
     <section
       id={idSection}
@@ -38,52 +46,38 @@ const NowPlaying = (props: NowPlayingProps) => {
         <CarouselContent>
           {nowPlayingMovies.map((movie) => (
             <CarouselItem key={movie.id} className="md:basis-1/2 lg:basis-1/4">
-              <div className="p-1">
+              <div className="group relative w-[309px] h-[151px] md:w-[302px] md:h-[162px] overflow-hidden  rounded-2xl">
                 <Card
                   onMouseEnter={() => handleMouseEnter(movie.id)}
                   onMouseLeave={() => handleMouseLeave()}
-                  className="w-[309px] h-[151px] md:w-[302px] md:h-[162px] bg-no-repeat bg-cover bg-center rounded-lg cursor-pointer hover:scale-105 transition-transform duration-300 p-0"
                   style={{
                     backgroundImage: `url(${
                       import.meta.env.VITE_TMDB_IMG_URL
                     }/${movie.backdrop_path})`,
                   }}
+                  className={`absolute inset-0 z-0 transition-transform duration-300 group-hover:scale-110 bg-cover bg-center `}
                 >
-                  {nowPlayingMoviesIsLoading ? (
-                    <p>Loading...</p>
-                  ) : (
-                    <CardContent
-                      className={`relative flex items-end justify-between h-full bg-gradient-to-t from-black to-transparent rounded-lg pb-2 ${
-                        hoveredId === movie.id ? "bg-black/80" : ""
-                      }`}
-                    >
-                      {hoveredId === movie.id && (
-                        <p className="absolute top-15 text-white font-semibold transition-all duration-300 ease-in-out z-10">
-                          Release:{" "}
-                          {new Date(movie.release_date).toLocaleDateString(
-                            "en-US",
-                            {
-                              year: "numeric",
-                              month: "long",
-                              day: "numeric",
-                            }
-                          )}
+                  <CardContent
+                    className={`absolute inset-0 z-10 grid place-content-center ${
+                      hoveredId === movie.id
+                        ? "bg-gradient-to-br from-white/20 to-white/0 backdrop-blur"
+                        : ""
+                    }`}
+                  >
+                    {hoveredId === movie.id && (
+                      <div className="flex flex-col gap-2 items-center justify-between w-[309px] h-[151px] md:w-[302px] md:h-[162px] py-5 px-5">
+                        <p className="text-white font-semibold transition-all duration-300 ease-in-out z-10">
+                          {movie.title}
                         </p>
-                      )}
-
-                      <p className="text-white text-[14px] md:text-[18px] font-bold z-10">
-                        {movie.title}
-                      </p>
-                      <p className="text-white text-[14px] md:text-[18px] z-10 flex flex-row justify-between items-center gap-[4px]">
-                        <img
-                          src="/images/star.png"
-                          alt="star"
-                          className="w-[12px] md:w-[16px] h-[12px] md:h-[16px]"
-                        />{" "}
-                        {movie.vote_average}
-                      </p>
-                    </CardContent>
-                  )}
+                        <Button
+                          onClick={handleAddToList}
+                          className="rounded-full bg-[#3254FF] border-2 border-[#3254FF] text-white hover:bg-transparent hover:text-white text-xs"
+                        >
+                          Add to List
+                        </Button>
+                      </div>
+                    )}
+                  </CardContent>
                 </Card>
               </div>
             </CarouselItem>
