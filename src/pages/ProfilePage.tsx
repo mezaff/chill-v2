@@ -10,6 +10,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+
+import UserFilmList from "@/components/UserFilmList";
+
 import { loginFormSchema, LoginFormSchema } from "@/forms/login";
 import { useLogedInUser } from "@/hooks/useLogedInUser";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -121,7 +124,14 @@ const ProfilePage = () => {
           </div>
         </div>
       </div>
-      <div className="mt-10 mx-6 md:mx-0"></div>
+
+      <div className="mt-10 mx-6 md:mx-0">
+        <h1 className="text-2xl font-bold mb-5 text-white md:px-40">
+          My List{" "}
+        </h1>
+        <UserFilmList />
+      </div>
+
     </AppLayout>
   );
 };
