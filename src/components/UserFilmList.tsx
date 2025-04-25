@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import VerticalFilmLayout from "./Layouts/VerticalFilmLayout";
 import { Card, CardContent } from "./ui/card";
@@ -62,6 +61,7 @@ const UserFilmList = () => {
       setFilmList((prevList) =>
         prevList.filter((film) => film.film_id !== filmId)
       );
+      alert("Film berhasil dihapus dari list!");
     } catch (error) {
       console.error("Error removing film from list:", error);
     }
@@ -115,7 +115,6 @@ const UserFilmList = () => {
         </CarouselContent>
       )}
     </VerticalFilmLayout>
-
   );
 };
 
