@@ -11,8 +11,15 @@ const VerticalFilmLayout = (props: VerticalFilmLayoutProps) => {
   return (
     <section
       id={type}
+<<<<<<< HEAD
       className={`flex flex-col justify-center items-center   ${
         type !== "myList" ? "px-8 md:py-20 py-5" : "mb-10 md:mb-20"
+=======
+
+      className={`flex flex-col justify-center items-center   ${
+        type !== "myList" ? "px-8 md:py-20 py-5" : "mb-10 md:mb-20"
+
+>>>>>>> 87a86b014ae889cf4282def9a28f25ffeb9143f5
       } bg-[#181a1c]`}
     >
       <div
