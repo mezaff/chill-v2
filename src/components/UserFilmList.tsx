@@ -61,7 +61,6 @@ const UserFilmList = () => {
       setFilmList((prevList) =>
         prevList.filter((film) => film.film_id !== filmId)
       );
-
       alert("Film berhasil dihapus dari list!");
     } catch (error) {
       console.error("Error removing film from list:", error);
