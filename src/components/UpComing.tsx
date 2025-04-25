@@ -17,6 +17,7 @@ const UpComing = () => {
   });
 
   return (
+
     <VerticalFilmLayout type="upcoming" sectionTitle="Up Coming Film">
       {upcomingMoviesError && (
         <p className="text-red-500 text-center self-center">
@@ -67,6 +68,7 @@ const UpComing = () => {
         ))}
       </CarouselContent>
     </VerticalFilmLayout>
+
   );
 };
 
