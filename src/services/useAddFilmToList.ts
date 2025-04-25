@@ -1,4 +1,5 @@
 import { axiosAuthInstance, axiosFilmInstance } from "@/lib/axios";
+import { useNavigate } from "react-router";
 
 type FilmResponse = {
   adult: boolean;
@@ -33,6 +34,7 @@ type AddFilmToListProps = {
 };
 
 export const useAddFilmToList = (props: AddFilmToListProps) => {
+  const navigate = useNavigate();
   const { userId, movieId } = props;
   const handleAddToList = async () => {
     if (userId) {
@@ -58,10 +60,13 @@ export const useAddFilmToList = (props: AddFilmToListProps) => {
           vote_count: film.data.vote_count,
         };
         await axiosAuthInstance.post<AddFilm>(`/userFilmList`, filmData);
-        console.log(film.data);
+        alert("Film berhasil ditambahkan ke list film Anda");
       } catch (error) {
         console.log(error);
       }
+    } else {
+      alert("Anda belum login");
+      navigate("/login");
     }
   };
   return { handleAddToList };

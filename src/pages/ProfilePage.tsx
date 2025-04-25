@@ -30,7 +30,7 @@ const ProfilePage = () => {
     <AppLayout>
       <div className="flex flex-col gap-4 p-5 md:px-40 text-white">
         <h1 className="text-2xl font-bold mb-5">Profile Saya</h1>
-        <div className="flex flex-row gap-20 justify-between items-start">
+        <div className="flex flex-col-reverse md:flex-row gap-20 justify-between items-start">
           <div className="flex flex-col gap-8 w-full">
             <div className="flex flex-row gap-6 items-center w-full">
               <img
@@ -96,7 +96,7 @@ const ProfilePage = () => {
             </Form>
           </div>
 
-          <div className="flex flex-col items-center justify-end gap-5 bg-[#3D4142] rounded-md p-5 w-5xl">
+          <div className="flex flex-col items-center justify-end gap-5 bg-[#3D4142] rounded-md p-5 md:w-5xl">
             <div className="flex flex-row gap-5">
               <img
                 src="/images/warning.png"
@@ -105,10 +105,10 @@ const ProfilePage = () => {
                 height={78}
               />
               <div className="flex flex-col gap-2 mt-3">
-                <h1 className="text-2xl font-bold">
+                <h1 className="md:text-2xl font-bold">
                   Saat ini anda belum berlangganan
                 </h1>
-                <p className="text-xl">
+                <p className="text-sm md:text-xl">
                   Dapatkan Akses Tak Terbatas ke Ribuan Film dan Series Kesukaan
                   Kamu
                 </p>
@@ -122,7 +122,7 @@ const ProfilePage = () => {
           </div>
         </div>
       </div>
-      <div className="mt-10">
+      <div className="mt-10 mx-6 md:mx-0">
         <h1 className="text-2xl font-bold mb-5 text-white md:px-40">
           My List{" "}
         </h1>
